@@ -63,5 +63,5 @@ public abstract class Persona {
         this.direccion = direccion;
     }
     
-    public abstract void saludar();
+    //public abstract void saludar();
 }

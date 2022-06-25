@@ -4,11 +4,14 @@
  */
 package oop.model;
 
+import oop.interfaces.IPersona;
+import oop.interfaces.ITrabajador;
+
 /**
  *
  * @author USUARIO
  */
-public class Veterinario extends Trabajador {
+public class Veterinario extends Trabajador implements IPersona, ITrabajador {
     public Veterinario(String name, String lastname, String documentId, String phone, String address){
         super(name,  lastname,  documentId,  phone,  address);
     }
@@ -20,18 +23,18 @@ public class Veterinario extends Trabajador {
 
     @Override
     public void marcarIngreso() {
-        System.err.println("Marca ingreso después de las 9:00 am");
+        System.out.println("Marca ingreso después de las 9:00 am");
     }
     
     public void diagnosticar(Mascota mascota) {
-        System.err.println("Diagnostica a la mascota llamada "+ mascota.getNombre());
+        System.out.println("Diagnostica a la mascota llamada "+ mascota.getNombre());
     }
     public void tratarMascota(Mascota mascota) {
-        System.err.println("Estoy tratando a la mascota llamada "+ mascota.getNombre());
+        System.out.println("Estoy tratando a la mascota llamada "+ mascota.getNombre());
     }
 
     @Override
     public void saludar() {
-        System.err.println("Hola! soy el veterinario "+ super.getNombres());
+        System.out.println("Hola! soy el veterinario "+ super.getNombres());
     }
 }

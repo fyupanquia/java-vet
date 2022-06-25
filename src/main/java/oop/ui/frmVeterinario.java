@@ -141,6 +141,8 @@ public class frmVeterinario extends javax.swing.JFrame {
 
         Veterinario c = new Veterinario(nombres, apellidos, dni, telefono, direccion );
         
+        c.saludar();
+        
         System.out.println("nombres:"+ c.getNombres());
         System.out.println("apellidos:"+ c.getApellidos());
         System.out.println("dni:"+ c.getDni());

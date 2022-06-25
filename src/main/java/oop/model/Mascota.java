@@ -4,11 +4,13 @@
  */
 package oop.model;
 
+import oop.interfaces.IAnimal;
+
 /**
  *
  * @author USUARIO
  */
-public class Mascota extends Animal {
+public class Mascota extends Animal implements IAnimal {
     private Character codigo;
     private String nombre;
 

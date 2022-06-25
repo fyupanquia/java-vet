@@ -15,5 +15,5 @@ public abstract class Animal {
     protected Character sexo;
     protected Double peso;
     protected Double altura;
-    public abstract void quejar();
+    
 }

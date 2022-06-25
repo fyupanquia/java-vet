@@ -169,6 +169,8 @@ public class frmCliente extends javax.swing.JFrame {
         Cliente c = new Cliente(nombres, apellidos, dni, telefono, direccion );
         c.setEmail(email);
         
+        c.saludar();
+        
         
         System.out.println("nombres:"+ c.getNombres());
         System.out.println("apellidos:"+ c.getApellidos());

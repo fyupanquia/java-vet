@@ -13,6 +13,4 @@ public abstract class Trabajador extends Persona {
         super(name,  lastname,  documentId,  phone,  address);
         //this.email = email;
     }
-    public abstract void cobrarSalario();
-    public abstract void marcarIngreso();
 }

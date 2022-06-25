@@ -4,11 +4,13 @@
  */
 package oop.model;
 
+import oop.interfaces.IPersona;
+
 /**
  *
  * @author USUARIO
  */
-public class Cliente extends Persona {
+public class Cliente extends Persona implements IPersona {
     private String email;
     
     public Cliente(String name, String lastname, String documentId, String phone, String address){
@@ -35,6 +37,7 @@ public class Cliente extends Persona {
 
     @Override
     public void saludar() {
-        System.err.println("Hola! soy el cliente"+ super.getNombres());
+        System.out.println("Hola! soy el cliente "+ super.getNombres());
     }
+    
 }
