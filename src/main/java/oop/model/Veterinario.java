@@ -4,8 +4,12 @@
  */
 package oop.model;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import oop.interfaces.IPersona;
 import oop.interfaces.ITrabajador;
+import oop.service.MysqlConnection;
+import oop.service.QueryGenerator;
 
 /**
  *
@@ -36,5 +40,12 @@ public class Veterinario extends Trabajador implements IPersona, ITrabajador {
     @Override
     public void saludar() {
         System.out.println("Hola! soy el veterinario "+ super.getNombres());
+    }
+    
+    public Boolean guardar(){
+        String[] campos =  {"NOMBRES", "APELLIDOS", "DNI", "TELEFONO", "DIRECCION"};
+        String[] valores = {super.getNombres(), super.getApellidos(), super.getDni(), super.getTelefono(), super.getDireccion()};
+        
+        return QueryGenerator.guardar("VETERINARIOS", campos, valores);
     }
 }

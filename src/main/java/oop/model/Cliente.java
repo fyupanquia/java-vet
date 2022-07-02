@@ -5,6 +5,7 @@
 package oop.model;
 
 import oop.interfaces.IPersona;
+import oop.service.QueryGenerator;
 
 /**
  *
@@ -40,4 +41,10 @@ public class Cliente extends Persona implements IPersona {
         System.out.println("Hola! soy el cliente "+ super.getNombres());
     }
     
+    public Boolean guardar(){
+        String[] campos =  {"NOMBRES", "APELLIDOS", "DNI", "TELEFONO", "DIRECCION"};
+        String[] valores = {super.getNombres(), super.getApellidos(), super.getDni(), super.getTelefono(), super.getDireccion()};
+        
+        return QueryGenerator.guardar("CLIENTES", campos, valores);
+    }
 }
