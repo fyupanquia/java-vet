@@ -74,10 +74,10 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
         for(int i=0;i<numRegistros;i++){
             Cita cita = citas.get(i);
             fila[0]=cita.getID();
-            fila[1]=cita.getRecepcionista().getNombres()+' '+ cita.getRecepcionista().getApellidos();
-            fila[2]=cita.getVeterinario().getNombres()+' '+ cita.getVeterinario().getApellidos();
-            fila[3]=cita.getCliente().getNombres()+' '+ cita.getCliente().getApellidos();
-            fila[4]=cita.getMascota().getNombre();
+            fila[1]=cita.getRecepcionista().getID()+": "+cita.getRecepcionista().getNombres()+' '+ cita.getRecepcionista().getApellidos();
+            fila[2]=cita.getVeterinario().getID()+": "+cita.getVeterinario().getNombres()+' '+ cita.getVeterinario().getApellidos();
+            fila[3]=cita.getCliente().getID()+": "+cita.getCliente().getNombres()+' '+ cita.getCliente().getApellidos();
+            fila[4]=cita.getMascota().getID()+": "+cita.getMascota().getNombre();
             fila[5]=cita.getTipoAtencion();
             modeloT.addRow(fila);
         }      
@@ -85,6 +85,7 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
     }
    
     public void LimpiarElementos(){
+        vistaCRUD.txtID.setText("");
         vistaCRUD.cmbRecepcionista.setSelectedIndex(0);
         vistaCRUD.cmbVeterinario.setSelectedIndex(0);
         vistaCRUD.cmbCliente.setSelectedIndex(0);
@@ -113,41 +114,40 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
       
         if (e.getSource()==vistaCRUD.btnListar) {
             LlenarTabla(vistaCRUD.jtDatos);
-            //JOptionPane.showMessageDialog(null, "Lista de Registro"); 
         }
                    
         if (e.getSource()==vistaCRUD.btnEditar) {
-            /*
+            
             int filaEditar = vistaCRUD.jtDatos.getSelectedRow();
             int numFS = vistaCRUD.jtDatos.getSelectedRowCount();
             
             if (filaEditar>=0 && numFS==1 ) {
-                vistaCRUD.txtNombres.setText(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 0)));
-                vistaCRUD.txtApellidos.setText(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 1)));
-                vistaCRUD.txtDNI.setText(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 2)));
-                vistaCRUD.txtTelefono.setText(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 3)));
-                vistaCRUD.txtDireccion.setText(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 4)));
+                vistaCRUD.txtID.setText(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 0)));
+                vistaCRUD.cmbRecepcionista.setSelectedItem(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 1)));
+                vistaCRUD.cmbVeterinario.setSelectedItem(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 2)));
+                vistaCRUD.cmbCliente.setSelectedItem(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 3)));
+                vistaCRUD.cmbMascota.setSelectedItem(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 4)));
+                vistaCRUD.cmbAtencion.setSelectedItem(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 5)));
                 
-                vistaCRUD.txtDNI.setEditable(false);
                 vistaCRUD.btnGuardar.setEnabled(false);
-                vistaCRUD.btnEditar.setEnabled(false);
+                vistaCRUD.btnEditar.setEnabled(true);
                 vistaCRUD.btnActualizar.setEnabled(true);
                 vistaCRUD.btnEliminar.setEnabled(true);
               }else{
                 JOptionPane.showMessageDialog(null,"Debe seleccionar una fila");
             }
-            */
+            
         }
         
         if (e.getSource()==vistaCRUD.btnActualizar) {
-            /*
-            String nombres=vistaCRUD.txtNombres.getText();
-            String apellidos=vistaCRUD.txtApellidos.getText();
-            String dni=vistaCRUD.txtDNI.getText();
-            String telefono=vistaCRUD.txtTelefono.getText();
-            String direccion=vistaCRUD.txtDireccion.getText();
+            String ID = vistaCRUD.txtID.getText();
+            String recepcionista = vistaCRUD.cmbRecepcionista.getSelectedItem().toString();
+            String veterinario = vistaCRUD.cmbVeterinario.getSelectedItem().toString();
+            String cliente = vistaCRUD.cmbCliente.getSelectedItem().toString();
+            String mascota = vistaCRUD.cmbMascota.getSelectedItem().toString();
+            String atencion = vistaCRUD.cmbAtencion.getSelectedItem().toString();
 
-            int rptaEdit= modeloCRUD.editarVeterinario(nombres, apellidos, dni, telefono, direccion);
+            int rptaEdit= modeloCRUD.editarCita(ID, recepcionista, veterinario, cliente, mascota, atencion);
             if(rptaEdit>0){
                 JOptionPane.showMessageDialog(null,"Edición exitosa");
                 LimpiarElementos();
@@ -161,15 +161,13 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
             vistaCRUD.btnEditar.setEnabled(true);
             vistaCRUD.btnEliminar.setEnabled(false);
             vistaCRUD.btnActualizar.setEnabled(false);
-            */
          }   
         
  
        if(e.getSource()==vistaCRUD.btnEliminar){
-           /*
-            String dni = vistaCRUD.txtDNI.getText();
-
-            int rptaEdit= modeloCRUD.eliminarVeterinario(dni);
+           
+            String ID = vistaCRUD.txtID.getText();
+            int rptaEdit = modeloCRUD.eliminarCita(ID);
             if(rptaEdit>0){
                 JOptionPane.showMessageDialog(null,"Eliminación exitosa");
                 LimpiarElementos();
@@ -177,7 +175,7 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
             }else{
                 JOptionPane.showMessageDialog(null,"No se pudo eliminar"); 
             }
-        */
+        
         }
     }    
 

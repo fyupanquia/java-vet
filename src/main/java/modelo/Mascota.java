@@ -11,7 +11,8 @@ package modelo;
 public class Mascota extends Animal implements IAnimal {
     private String ID;
     private String nombre;
-    public Mascota(String nombre){
+    public Mascota(String ID, String nombre){
+        this.ID = ID;
         this.nombre = nombre;
     }
     public Mascota(String ID, String nombre, String edad, String sexo, String color, String raza, String peso, String altura){

@@ -117,7 +117,7 @@ public class ControladorMascotaCrud implements ActionListener, KeyListener{
                 vistaCRUD.txtAltura.setText(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 7)));
                 
                 vistaCRUD.btnGuardar.setEnabled(false);
-                vistaCRUD.btnEditar.setEnabled(false);
+                vistaCRUD.btnEditar.setEnabled(true);
                 vistaCRUD.btnActualizar.setEnabled(true);
                 vistaCRUD.btnEliminar.setEnabled(true);
               }else{

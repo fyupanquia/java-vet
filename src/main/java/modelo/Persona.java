@@ -24,7 +24,8 @@ public abstract class Persona {
         this.ID = ID;
     }
     
-    public Persona(String name, String lastname){
+    public Persona(String ID, String name, String lastname){
+        this.ID = ID;
         this.nombres = name;
         this.apellidos = lastname;
     }

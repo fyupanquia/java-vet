@@ -110,7 +110,7 @@ public class ControladorClienteCrud implements ActionListener, KeyListener{
                 
                 vistaCRUD.txtDNI.setEditable(false);
                 vistaCRUD.btnGuardar.setEnabled(false);
-                vistaCRUD.btnEditar.setEnabled(false);
+                vistaCRUD.btnEditar.setEnabled(true);
                 vistaCRUD.btnActualizar.setEnabled(true);
                 vistaCRUD.btnEliminar.setEnabled(true);
               }else{

@@ -9,8 +9,8 @@ package modelo;
  * @author USUARIO
  */
 public class Recepcionista extends Trabajador implements IPersona, ITrabajador, IRecepcionista {
-    public Recepcionista(String name, String lastname){
-        super(name,  lastname);
+    public Recepcionista(String ID, String name, String lastname){
+        super(ID, name,  lastname);
     }
     
     public Recepcionista(String ID, String name, String lastname, String documentId, String phone, String address){

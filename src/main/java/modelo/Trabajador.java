@@ -9,8 +9,8 @@ package modelo;
  * @author USUARIO
  */
 public abstract class Trabajador extends Persona {
-    public Trabajador(String name, String lastname){
-        super(name,  lastname);
+    public Trabajador(String ID, String name, String lastname){
+        super(ID, name,  lastname);
     }
     public Trabajador(String ID, String name, String lastname, String documentId, String phone, String address){
         super(ID, name,  lastname,  documentId,  phone,  address);

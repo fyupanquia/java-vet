@@ -13,8 +13,8 @@ import controlador.QueryGenerator;
 public class Cliente extends Persona implements IPersona {
     private String email;
     
-    public Cliente(String name, String lastname){
-        super(name,  lastname);
+    public Cliente(String ID, String name, String lastname){
+        super(ID, name,  lastname);
     }
     
     public Cliente(String ID, String name, String lastname, String documentId, String phone, String address){
