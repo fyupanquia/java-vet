@@ -17,7 +17,7 @@ public class ClienteDAO {
             PreparedStatement ps=accesoDB.prepareStatement("SELECT * FROM CLIENTES");
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                cliente = new Cliente(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6) );
+                cliente = new Cliente(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6) );
                 cliente.setEmail(rs.getString(7));
                 listaCliente.add(cliente);
             }

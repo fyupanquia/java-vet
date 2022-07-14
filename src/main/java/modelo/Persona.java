@@ -9,13 +9,28 @@ package modelo;
  * @author USUARIO
  */
 public abstract class Persona {
+    private String ID;
     private String nombres;
     private String apellidos;
     private String dni;
     private String telefono;
     private String direccion;
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
     
-    public Persona(String name, String lastname, String documentId, String phone, String address){
+    public Persona(String name, String lastname){
+        this.nombres = name;
+        this.apellidos = lastname;
+    }
+    
+    public Persona(String ID, String name, String lastname, String documentId, String phone, String address){
+        this.ID = ID;
         this.nombres = name;
         this.apellidos = lastname;
         this.dni = documentId;

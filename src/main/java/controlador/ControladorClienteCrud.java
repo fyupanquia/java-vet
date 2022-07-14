@@ -83,6 +83,7 @@ public class ControladorClienteCrud implements ActionListener, KeyListener{
             Boolean rptaRegistro =modeloCRUD.insertCliente(nombres, apellidos, dni, telefono, direccion, email);
             if (rptaRegistro) {
                 JOptionPane.showMessageDialog(null, "Registro Exitoso");
+                LimpiarElementos();
                 LlenarTabla(vistaCRUD.jtDatos);
             }else{
                JOptionPane.showMessageDialog(null, "Registro Erróneo");  
@@ -127,6 +128,7 @@ public class ControladorClienteCrud implements ActionListener, KeyListener{
             int rptaEdit= modeloCRUD.editarcliente(nombres, apellidos, dni, telefono, direccion, email);
             if(rptaEdit>0){
                 JOptionPane.showMessageDialog(null,"Edición exitosa");
+                LimpiarElementos();
                 LlenarTabla(vistaCRUD.jtDatos);
             }else{
                 JOptionPane.showMessageDialog(null,"No se pudo Guardar");
@@ -135,8 +137,8 @@ public class ControladorClienteCrud implements ActionListener, KeyListener{
             LimpiarElementos();
             vistaCRUD.btnGuardar.setEnabled(true);
             vistaCRUD.btnEditar.setEnabled(true);
-            vistaCRUD.btnEliminar.setEnabled(true);
-            vistaCRUD.btnActualizar.setEnabled(true);
+            vistaCRUD.btnEliminar.setEnabled(false);
+            vistaCRUD.btnActualizar.setEnabled(false);
          }   
         
        if(e.getSource()==vistaCRUD.btnEliminar){
@@ -145,6 +147,7 @@ public class ControladorClienteCrud implements ActionListener, KeyListener{
             int rptaEdit= modeloCRUD.eliminarcliente(dni);
             if(rptaEdit>0){
                 JOptionPane.showMessageDialog(null,"Eliminación exitosa");
+                LimpiarElementos();
                 LlenarTabla(vistaCRUD.jtDatos);
             }else{
                  JOptionPane.showMessageDialog(null,"No se pudo eliminar"); 

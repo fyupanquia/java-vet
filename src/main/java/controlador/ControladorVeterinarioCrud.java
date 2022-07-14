@@ -19,11 +19,11 @@ import vista.*;
  *
  * @author USUARIO
  */
-public class ControladorRecepcionistaCrud implements ActionListener, KeyListener{
-    JFRecepcionistaCrud vistaCRUD=new JFRecepcionistaCrud();
-    RecepcionistaDAO modeloCRUD= new RecepcionistaDAO();
+public class ControladorVeterinarioCrud implements ActionListener, KeyListener{
+    JFVeterinarioCrud vistaCRUD=new JFVeterinarioCrud();
+    VeterinarioDAO modeloCRUD= new VeterinarioDAO();
     
-    public ControladorRecepcionistaCrud(JFRecepcionistaCrud vistaCRUD, RecepcionistaDAO modeloCRUD){
+    public ControladorVeterinarioCrud(JFVeterinarioCrud vistaCRUD, VeterinarioDAO modeloCRUD){
         this.modeloCRUD=modeloCRUD;
         this.vistaCRUD=vistaCRUD;
         
@@ -46,15 +46,15 @@ public class ControladorRecepcionistaCrud implements ActionListener, KeyListener
         modeloT.addColumn("Dirección");
         
         Object[]columna=new Object[6];
-        ArrayList<Recepcionista> recepcionistas = modeloCRUD.listRecepcionista();
-        int numRegistros = recepcionistas.size();
+        ArrayList<Veterinario> veterinarios = modeloCRUD.listVeterinario();
+        int numRegistros = veterinarios.size();
         for(int i=0;i<numRegistros;i++){
-            Recepcionista recepcionista = recepcionistas.get(i);
-            columna[0]=recepcionista.getNombres();
-            columna[1]=recepcionista.getApellidos();
-            columna[2]=recepcionista.getDni();
-            columna[3]=recepcionista.getTelefono();
-            columna[4]=recepcionista.getDireccion();
+            Veterinario veterinario = veterinarios.get(i);
+            columna[0]=veterinario.getNombres();
+            columna[1]=veterinario.getApellidos();
+            columna[2]=veterinario.getDni();
+            columna[3]=veterinario.getTelefono();
+            columna[4]=veterinario.getDireccion();
             modeloT.addRow(columna);
         }      
     }
@@ -75,7 +75,7 @@ public class ControladorRecepcionistaCrud implements ActionListener, KeyListener
             String dni = vistaCRUD.txtDNI.getText();
             String telefono = vistaCRUD.txtTelefono.getText();
             String direccion = vistaCRUD.txtDireccion.getText();
-            Boolean rptaRegistro =modeloCRUD.insertRecepcionista(nombres, apellidos, dni, telefono, direccion);
+            Boolean rptaRegistro =modeloCRUD.insertVeterinario(nombres, apellidos, dni, telefono, direccion);
             if (rptaRegistro) {
                 JOptionPane.showMessageDialog(null, "Registro Exitoso");
                 LimpiarElementos();
@@ -119,7 +119,7 @@ public class ControladorRecepcionistaCrud implements ActionListener, KeyListener
             String telefono=vistaCRUD.txtTelefono.getText();
             String direccion=vistaCRUD.txtDireccion.getText();
 
-            int rptaEdit= modeloCRUD.editarRecepcionista(nombres, apellidos, dni, telefono, direccion);
+            int rptaEdit= modeloCRUD.editarVeterinario(nombres, apellidos, dni, telefono, direccion);
             if(rptaEdit>0){
                 JOptionPane.showMessageDialog(null,"Edición exitosa");
                 LimpiarElementos();
@@ -139,13 +139,13 @@ public class ControladorRecepcionistaCrud implements ActionListener, KeyListener
        if(e.getSource()==vistaCRUD.btnEliminar){
             String dni = vistaCRUD.txtDNI.getText();
 
-            int rptaEdit= modeloCRUD.eliminarRecepcionista(dni);
+            int rptaEdit= modeloCRUD.eliminarVeterinario(dni);
             if(rptaEdit>0){
                 JOptionPane.showMessageDialog(null,"Eliminación exitosa");
                 LimpiarElementos();
                 LlenarTabla(vistaCRUD.jtDatos);
             }else{
-                 JOptionPane.showMessageDialog(null,"No se pudo eliminar"); 
+                JOptionPane.showMessageDialog(null,"No se pudo eliminar"); 
             }
         }
     }    

@@ -3,22 +3,53 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package modelo;
-
-import java.util.Date;
-
 /**
  *
  * @author USUARIO
  */
 public class Cita {
+    private String ID;
     private Mascota mascota;
     private Cliente cliente;
-    private Trabajador trabajador;
-    private Date fecha;
+    private Recepcionista recepcionista;
+    private Veterinario veterinario;
     private String tipoAtencion;
+
+    public Cita( String ID, Recepcionista recepcionista, Veterinario veterinario,  Cliente cliente, Mascota mascota, String tipoAtencion) {
+        this.ID = ID;
+        this.mascota = mascota;
+        this.cliente = cliente;
+        this.recepcionista = recepcionista;
+        this.veterinario = veterinario;
+        this.tipoAtencion = tipoAtencion;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
     public Mascota getMascota() {
         return mascota;
+    }
+
+    public Recepcionista getRecepcionista() {
+        return recepcionista;
+    }
+
+    public void setRecepcionista(Recepcionista recepcionista) {
+        this.recepcionista = recepcionista;
+    }
+
+    public Veterinario getVeterinario() {
+        return veterinario;
+    }
+
+    public void setVeterinario(Veterinario veterinario) {
+        this.veterinario = veterinario;
     }
 
     public void setMascota(Mascota mascota) {
@@ -31,22 +62,6 @@ public class Cita {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public Trabajador getTrabajador() {
-        return trabajador;
-    }
-
-    public void setTrabajador(Trabajador trabajador) {
-        this.trabajador = trabajador;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
     }
 
     public String getTipoAtencion() {

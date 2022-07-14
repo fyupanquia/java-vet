@@ -10,7 +10,7 @@ public class RecepcionistaDAO {
    }
     
     public ArrayList<Recepcionista> listRecepcionista(){
-        ArrayList listaCliente = new ArrayList();
+        ArrayList listaRecepcionistas = new ArrayList();
         Recepcionista recepcionista;
         
         try{
@@ -19,15 +19,15 @@ public class RecepcionistaDAO {
             PreparedStatement ps=accesoDB.prepareStatement("SELECT * FROM RECEPCIONISTAS");
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                recepcionista = new Recepcionista(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6) );
-                listaCliente.add(recepcionista);
+                recepcionista = new Recepcionista(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6) );
+                listaRecepcionistas.add(recepcionista);
             }
 
         }catch(SQLException e){
             System.out.println("SQLException: "+ e.getMessage());
         }
         
-        return listaCliente;
+        return listaRecepcionistas;
     }
     
     public Boolean insertRecepcionista(String nombres,String apellidos,String dni, String telefono, String direccion){

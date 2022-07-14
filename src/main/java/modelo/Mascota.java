@@ -9,15 +9,28 @@ package modelo;
  * @author USUARIO
  */
 public class Mascota extends Animal implements IAnimal {
-    private Character codigo;
+    private String ID;
     private String nombre;
-
-    public Character getCodigo() {
-        return codigo;
+    public Mascota(String nombre){
+        this.nombre = nombre;
+    }
+    public Mascota(String ID, String nombre, String edad, String sexo, String color, String raza, String peso, String altura){
+        super.setEdad(Integer.parseInt(edad));
+        super.setSexo(sexo);
+        super.setColor(color);
+        super.setRaza(raza);
+        super.setPeso(Double.parseDouble(peso));
+        super.setAltura(Double.parseDouble(altura));
+        this.ID = ID;
+        this.nombre = nombre;
     }
 
-    public void setCodigo(Character codigo) {
-        this.codigo = codigo;
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public String getNombre() {

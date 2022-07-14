@@ -22,7 +22,10 @@ G:\prjs\java\vet\src\main\java\modelo\IAnimal.java
 G:\prjs\java\vet\src\main\java\vista\JFDashboard.java
 G:\prjs\java\vet\src\main\java\modelo\Cita.java
 G:\prjs\java\vet\src\main\java\modelo\Persona.java
+G:\prjs\java\vet\src\main\java\controlador\ControladorMascotaCrud.java
 G:\prjs\java\vet\src\main\java\vista\JFRecepcionistaCrud.java
+G:\prjs\java\vet\src\main\java\controlador\ControladorVeterinarioCrud.java
+G:\prjs\java\vet\src\main\java\controlador\ControladorRecepcionistaCrud.java
 G:\prjs\java\vet\src\main\java\modelo\Visita.java
 G:\prjs\java\vet\src\main\java\modelo\Trabajador.java
 G:\prjs\java\vet\src\main\java\modelo\Conexion.java

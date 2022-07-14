@@ -99,7 +99,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnCitas">
       <Properties>
-        <Property name="text" type="java.lang.String" value="REGISTRAR CITAS"/>
+        <Property name="text" type="java.lang.String" value="CITAS"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCitasActionPerformed"/>

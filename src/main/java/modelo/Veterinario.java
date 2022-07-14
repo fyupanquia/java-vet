@@ -13,8 +13,11 @@ import controlador.QueryGenerator;
  * @author USUARIO
  */
 public class Veterinario extends Trabajador implements IPersona, ITrabajador {
-    public Veterinario(String name, String lastname, String documentId, String phone, String address){
-        super(name,  lastname,  documentId,  phone,  address);
+    public Veterinario(String name, String lastname){
+        super(name,  lastname);
+    }
+    public Veterinario(String ID, String name, String lastname, String documentId, String phone, String address){
+        super(ID, name,  lastname,  documentId,  phone,  address);
     }
     
     @Override

@@ -15,6 +15,7 @@ public abstract class Animal {
     protected String sexo;
     protected Double peso;
     protected Double altura;
+   
 
     public int getEdad() {
         return edad;

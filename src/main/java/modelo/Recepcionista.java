@@ -9,8 +9,12 @@ package modelo;
  * @author USUARIO
  */
 public class Recepcionista extends Trabajador implements IPersona, ITrabajador, IRecepcionista {
-    public Recepcionista(String name, String lastname, String documentId, String phone, String address){
-        super(name,  lastname,  documentId,  phone,  address);
+    public Recepcionista(String name, String lastname){
+        super(name,  lastname);
+    }
+    
+    public Recepcionista(String ID, String name, String lastname, String documentId, String phone, String address){
+        super(ID, name,  lastname,  documentId,  phone,  address);
     }
 
     @Override
@@ -26,8 +30,7 @@ public class Recepcionista extends Trabajador implements IPersona, ITrabajador, 
          Cliente cliente = cita.getCliente();
          Mascota mascota = cita.getMascota();
         System.out.println("Estoy agendando una clita para el cliente "+ cliente.getNombres() + " "+ cliente.getApellidos()+ 
-                            "y su mascota llamada "+ mascota.getNombre()+
-                            "La fecha "+ cita.getFecha().toString());
+                            "y su mascota llamada "+ mascota.getNombre());
     }
     @Override
     public void saludar() {

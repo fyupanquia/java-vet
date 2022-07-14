@@ -4,10 +4,16 @@
  */
 package vista;
 
+import controlador.ControladorCitaCrud;
 import controlador.ControladorClienteCrud;
+import controlador.ControladorMascotaCrud;
 import controlador.ControladorRecepcionistaCrud;
+import controlador.ControladorVeterinarioCrud;
+import modelo.CitaDAO;
 import modelo.ClienteDAO;
+import modelo.MascotaDAO;
 import modelo.RecepcionistaDAO;
+import modelo.VeterinarioDAO;
 
 /**
  *
@@ -61,7 +67,7 @@ public class JFDashboard extends javax.swing.JFrame {
             }
         });
 
-        btnCitas.setText("REGISTRAR CITAS");
+        btnCitas.setText("CITAS");
         btnCitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCitasActionPerformed(evt);
@@ -159,15 +165,25 @@ public class JFDashboard extends javax.swing.JFrame {
 
     private void btnVeterinariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVeterinariosActionPerformed
         // TODO add your handling code here:
-        JFVeterinarioCrud frmv = new JFVeterinarioCrud();
-        frmv.show();
+        JFVeterinarioCrud vistaC = new JFVeterinarioCrud();
+        VeterinarioDAO modeloC = new VeterinarioDAO();
+        ControladorVeterinarioCrud controladorC = new ControladorVeterinarioCrud(vistaC, modeloC);
+        
+        vistaC.setVisible(true);
+        vistaC.setLocationRelativeTo(null);
+        vistaC.show();
         dispose();
     }//GEN-LAST:event_btnVeterinariosActionPerformed
 
     private void btnCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCitasActionPerformed
         // TODO add your handling code here:
-        JFCitaCrud frmc = new JFCitaCrud();
-        frmc.show();
+        JFCitaCrud vistaC = new JFCitaCrud();
+        CitaDAO modeloC = new CitaDAO();
+        ControladorCitaCrud controladorC = new ControladorCitaCrud(vistaC, modeloC);
+        
+        vistaC.setVisible(true);
+        vistaC.setLocationRelativeTo(null);
+        vistaC.show();
         dispose();
     }//GEN-LAST:event_btnCitasActionPerformed
 
@@ -190,6 +206,14 @@ public class JFDashboard extends javax.swing.JFrame {
 
     private void btnMascotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMascotasActionPerformed
         // TODO add your handling code here:
+        JFMascotaCrud vistaC = new JFMascotaCrud();
+        MascotaDAO modeloC = new MascotaDAO();
+        ControladorMascotaCrud controladorC = new ControladorMascotaCrud(vistaC, modeloC);
+        
+        vistaC.setVisible(true);
+        vistaC.setLocationRelativeTo(null);
+        vistaC.show();
+        dispose();
     }//GEN-LAST:event_btnMascotasActionPerformed
 
     /**
