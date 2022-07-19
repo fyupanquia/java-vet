@@ -11,11 +11,20 @@ package modelo;
 public class Mascota extends Animal implements IAnimal {
     private String ID;
     private String nombre;
+    private String foto;
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
     public Mascota(String ID, String nombre){
         this.ID = ID;
         this.nombre = nombre;
     }
-    public Mascota(String ID, String nombre, String edad, String sexo, String color, String raza, String peso, String altura){
+    public Mascota(String ID, String nombre, String edad, String sexo, String color, String raza, String peso, String altura, String foto){
         super.setEdad(Integer.parseInt(edad));
         super.setSexo(sexo);
         super.setColor(color);
@@ -24,6 +33,7 @@ public class Mascota extends Animal implements IAnimal {
         super.setAltura(Double.parseDouble(altura));
         this.ID = ID;
         this.nombre = nombre;
+        this.foto = foto;
     }
 
     public String getID() {

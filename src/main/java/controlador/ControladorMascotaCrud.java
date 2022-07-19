@@ -4,11 +4,21 @@
  */
 package controlador;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +32,7 @@ import vista.*;
 public class ControladorMascotaCrud implements ActionListener, KeyListener{
     JFMascotaCrud vistaCRUD=new JFMascotaCrud();
     MascotaDAO modeloCRUD= new MascotaDAO();
+    File f;
     
     public ControladorMascotaCrud(JFMascotaCrud vistaCRUD, MascotaDAO modeloCRUD){
         this.modeloCRUD=modeloCRUD;
@@ -34,6 +45,8 @@ public class ControladorMascotaCrud implements ActionListener, KeyListener{
         this.vistaCRUD.btnEditar.addActionListener(this);
         this.vistaCRUD.btnActualizar.addActionListener(this);
         this.vistaCRUD.btnEliminar.addActionListener(this);
+        this.vistaCRUD.btnFoto.addActionListener(this);
+        this.vistaCRUD.btnBorrarFoto.addActionListener(this);
     }
    
     public void LlenarTabla(JTable tablaD){
@@ -47,8 +60,12 @@ public class ControladorMascotaCrud implements ActionListener, KeyListener{
         modeloT.addColumn("Raza");
         modeloT.addColumn("Peso");
         modeloT.addColumn("Altura");
+        modeloT.addColumn("Foto");
         
-        Object[] fila = new Object[8];
+        tablaD.getColumnModel().getColumn(8).setMinWidth(0);
+        tablaD.getColumnModel().getColumn(8).setMaxWidth(0);
+        
+        Object[] fila = new Object[9];
         ArrayList<Mascota> mascotas = modeloCRUD.listMascota();
         int numRegistros = mascotas.size();
         for(int i=0;i<numRegistros;i++){
@@ -61,6 +78,7 @@ public class ControladorMascotaCrud implements ActionListener, KeyListener{
             fila[5]=mascota.getRaza();
             fila[6]=mascota.getPeso();
             fila[7]=mascota.getAltura();
+            fila[8]=mascota.getFoto();
             modeloT.addRow(fila);
         }      
     }
@@ -85,8 +103,33 @@ public class ControladorMascotaCrud implements ActionListener, KeyListener{
             String raza = vistaCRUD.txtRaza.getText();
             String peso = vistaCRUD.txtPeso.getText();
             String altura = vistaCRUD.txtAltura.getText();
-            Boolean rptaRegistro =modeloCRUD.insertMascota(nombre, edad, sexo, color, raza, peso, altura);
+            String filename = "";
+           
+            if (this.f!=null) {
+                Long unixTime = System.currentTimeMillis() / 1000L;
+                String separador = Pattern.quote(".");
+                String[] parts = this.f.getAbsolutePath().split(separador);
+                String ext = parts[parts.length-1];
+                Double index = Math.random() * (10000 - 1000 + 1) + 1000;
+                filename = index+"-"+unixTime+"."+ext;
+            }
+            
+            System.out.println("filename: "+ filename);
+            Boolean rptaRegistro =modeloCRUD.insertMascota(nombre, edad, sexo, color, raza, peso, altura, filename);
+            
             if (rptaRegistro) {
+                if (this.f!=null) {
+                    try {
+                        File newFile = new File("./assets/pets/"+filename);
+                        Files.copy(f.toPath(),newFile.toPath(), StandardCopyOption.REPLACE_EXISTING); 
+                    } catch (IOException ex) {
+                        Logger.getLogger(ControladorMascotaCrud.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }               
+                
+                this.f = null;
+                vistaCRUD.lblFoto.setIcon(null);
+                
                 JOptionPane.showMessageDialog(null, "Registro Exitoso");
                 LimpiarElementos();
                 LlenarTabla(vistaCRUD.jtDatos);
@@ -116,6 +159,22 @@ public class ControladorMascotaCrud implements ActionListener, KeyListener{
                 vistaCRUD.txtPeso.setText(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 6)));
                 vistaCRUD.txtAltura.setText(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 7)));
                 
+                String filename = String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 8));
+                
+                if (filename.length()>0){
+                    String filepath = "./assets/pets/"+filename;
+                    ImageIcon imageIcon = new ImageIcon(
+                        new ImageIcon(filepath)
+                            .getImage()
+                            .getScaledInstance(
+                                vistaCRUD.lblFoto.getWidth(), 
+                                vistaCRUD.lblFoto.getHeight(),
+                                Image.SCALE_SMOOTH)
+                    );
+                    vistaCRUD.lblFoto.setIcon(imageIcon);
+                    this.f = new File(filepath);
+                }                
+                
                 vistaCRUD.btnGuardar.setEnabled(false);
                 vistaCRUD.btnEditar.setEnabled(true);
                 vistaCRUD.btnActualizar.setEnabled(true);
@@ -134,10 +193,31 @@ public class ControladorMascotaCrud implements ActionListener, KeyListener{
             String raza =vistaCRUD.txtRaza.getText();
             String peso = vistaCRUD.txtPeso.getText();
             String altura = vistaCRUD.txtAltura.getText();
+            String filename = "";   
 
-            int rptaEdit= modeloCRUD.editarMascota(ID, nombre, edad, sexo, color, raza, peso, altura);
-            if(rptaEdit>0){
+            if (this.f!=null) {
+                Long unixTime = System.currentTimeMillis() / 1000L;
+                String separador = Pattern.quote(".");
+                String[] parts = this.f.getAbsolutePath().split(separador);
+                String ext = parts[parts.length-1];
+                Double index = Math.random() * (10000 - 1000 + 1) + 1000;
+                filename = index+"-"+unixTime+"."+ext;    
+            }            
+            
+            int rptaEdit= modeloCRUD.editarMascota(ID, nombre, edad, sexo, color, raza, peso, altura, filename);
+            
+            if (rptaEdit>0) {
+                if (this.f!=null) {
+                    try {
+                        File newFile = new File("./assets/pets/"+filename);
+                        Files.copy(f.toPath(),newFile.toPath(), StandardCopyOption.REPLACE_EXISTING); 
+                    } catch (IOException ex) {
+                        Logger.getLogger(ControladorMascotaCrud.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }               
+                
                 JOptionPane.showMessageDialog(null,"Edición exitosa");
+                vistaCRUD.lblFoto.setIcon(null);
                 LimpiarElementos();
                 LlenarTabla(vistaCRUD.jtDatos);
             }else{
@@ -168,6 +248,33 @@ public class ControladorMascotaCrud implements ActionListener, KeyListener{
             vistaCRUD.btnEditar.setEnabled(true);
             vistaCRUD.btnEliminar.setEnabled(false);
             vistaCRUD.btnActualizar.setEnabled(false);
+            this.f = null;
+        }
+       
+        if(e.getSource()==vistaCRUD.btnFoto){
+            JFileChooser chooser = new JFileChooser();
+            chooser.showOpenDialog(null);
+            File f = chooser.getSelectedFile();
+            System.out.println("f: ");
+            System.out.println(f);
+            if(f!=null) {
+                String filepath = f.getAbsolutePath();
+            
+                ImageIcon imageIcon = new ImageIcon(
+                    new ImageIcon(filepath)
+                        .getImage()
+                        .getScaledInstance(
+                            vistaCRUD.lblFoto.getWidth(), 
+                            vistaCRUD.lblFoto.getHeight(),
+                            Image.SCALE_SMOOTH)
+                );
+                vistaCRUD.lblFoto.setIcon(imageIcon);
+                this.f = f;
+            }
+        }
+        if(e.getSource()==vistaCRUD.btnBorrarFoto){
+            vistaCRUD.lblFoto.setIcon(null);
+            this.f = null;
         }
     }    
 

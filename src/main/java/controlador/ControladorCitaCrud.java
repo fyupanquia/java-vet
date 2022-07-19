@@ -4,11 +4,18 @@
  */
 package controlador;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -30,13 +37,13 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
         this.vistaCRUD.btnEditar.addActionListener(this);
         this.vistaCRUD.btnActualizar.addActionListener(this);
         this.vistaCRUD.btnEliminar.addActionListener(this);
+        this.vistaCRUD.cmbMascota.addActionListener(this);
         
         RecepcionistaDAO recepcionistaDAO = new RecepcionistaDAO();
         ArrayList<Recepcionista> recepcionistas = recepcionistaDAO.listRecepcionista();
         for (Recepcionista recepcionista : recepcionistas) {
             this.vistaCRUD.cmbRecepcionista.addItem(recepcionista.getID() +": " + recepcionista.getNombres()+" "+ recepcionista.getApellidos());
         }
-        
         
         VeterinarioDAO veterinarioDAO = new VeterinarioDAO();
         ArrayList<Veterinario> veterinarios = veterinarioDAO.listVeterinario();
@@ -67,8 +74,12 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
         modeloT.addColumn("Cliente");
         modeloT.addColumn("Mascota");
         modeloT.addColumn("Atención");
+        modeloT.addColumn("Fecha");
         
-        Object[]fila=new Object[6];
+        tablaD.getColumnModel().getColumn(6).setMinWidth(0);
+        tablaD.getColumnModel().getColumn(6).setMaxWidth(0);
+        
+        Object[]fila=new Object[7];
         ArrayList<Cita> citas = modeloCRUD.listCita();
         int numRegistros = citas.size();
         for(int i=0;i<numRegistros;i++){
@@ -79,6 +90,7 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
             fila[3]=cita.getCliente().getID()+": "+cita.getCliente().getNombres()+' '+ cita.getCliente().getApellidos();
             fila[4]=cita.getMascota().getID()+": "+cita.getMascota().getNombre();
             fila[5]=cita.getTipoAtencion();
+            fila[6]=cita.getFecha();
             modeloT.addRow(fila);
         }      
         
@@ -94,23 +106,29 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
     }
     
      public void actionPerformed(ActionEvent e){
-        
+
         if (e.getSource()==vistaCRUD.btnGuardar) {
             String recepcionista = vistaCRUD.cmbRecepcionista.getSelectedItem().toString();
             String veterinario = vistaCRUD.cmbVeterinario.getSelectedItem().toString();
             String cliente = vistaCRUD.cmbCliente.getSelectedItem().toString();
             String mascota = vistaCRUD.cmbMascota.getSelectedItem().toString();
             String atencion = vistaCRUD.cmbAtencion.getSelectedItem().toString();
-            Boolean rptaRegistro =modeloCRUD.insertCita(recepcionista, veterinario, cliente, mascota, atencion);
+            Date dfecha = vistaCRUD.jdFecha.getDate();
+            if(dfecha==null){
+               JOptionPane.showMessageDialog(null, "Ingrese la fecha para la cita");
+               return;
+            }
+            String fecha = String.format("%1$tY-%1$tm-%1$td", dfecha);
+            Boolean rptaRegistro =modeloCRUD.insertCita(recepcionista, veterinario, cliente, mascota, atencion, fecha);
             if (rptaRegistro) {
+                vistaCRUD.jdFecha.setDate(new Date());
                 JOptionPane.showMessageDialog(null, "Registro Exitoso");
                 LimpiarElementos();
                 LlenarTabla(vistaCRUD.jtDatos);
             }else{
                JOptionPane.showMessageDialog(null, "Registro Erróneo");  
             }
-        }
-      
+        }      
       
         if (e.getSource()==vistaCRUD.btnListar) {
             LlenarTabla(vistaCRUD.jtDatos);
@@ -129,6 +147,14 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
                 vistaCRUD.cmbMascota.setSelectedItem(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 4)));
                 vistaCRUD.cmbAtencion.setSelectedItem(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 5)));
                 
+                Date date;
+                try {
+                    date = new SimpleDateFormat("yyyy-M-dd hh:mm:ss").parse(String.valueOf(vistaCRUD.jtDatos.getValueAt(filaEditar, 6)));
+                    vistaCRUD.jdFecha.setDate(date);
+                } catch (ParseException ex) {
+                    Logger.getLogger(ControladorCitaCrud.class.getName()).log(Level.SEVERE, null, ex);
+                }                
+                
                 vistaCRUD.btnGuardar.setEnabled(false);
                 vistaCRUD.btnEditar.setEnabled(true);
                 vistaCRUD.btnActualizar.setEnabled(true);
@@ -146,9 +172,16 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
             String cliente = vistaCRUD.cmbCliente.getSelectedItem().toString();
             String mascota = vistaCRUD.cmbMascota.getSelectedItem().toString();
             String atencion = vistaCRUD.cmbAtencion.getSelectedItem().toString();
-
-            int rptaEdit= modeloCRUD.editarCita(ID, recepcionista, veterinario, cliente, mascota, atencion);
+            Date dfecha = vistaCRUD.jdFecha.getDate();
+            if(dfecha==null){
+               JOptionPane.showMessageDialog(null, "Ingrese la fecha para la cita");
+               return;
+            }
+            String fecha = String.format("%1$tY-%1$tm-%1$td", dfecha);
+                
+            int rptaEdit= modeloCRUD.editarCita(ID, recepcionista, veterinario, cliente, mascota, atencion, fecha);
             if(rptaEdit>0){
+                vistaCRUD.jdFecha.setDate(new Date());
                 JOptionPane.showMessageDialog(null,"Edición exitosa");
                 LimpiarElementos();
                 LlenarTabla(vistaCRUD.jtDatos);
@@ -169,6 +202,7 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
             String ID = vistaCRUD.txtID.getText();
             int rptaEdit = modeloCRUD.eliminarCita(ID);
             if(rptaEdit>0){
+                vistaCRUD.jdFecha.setDate(new Date());
                 JOptionPane.showMessageDialog(null,"Eliminación exitosa");
                 LimpiarElementos();
                 LlenarTabla(vistaCRUD.jtDatos);
@@ -177,6 +211,24 @@ public class ControladorCitaCrud implements ActionListener, KeyListener{
             }
         
         }
+       
+       if(e.getSource()==vistaCRUD.cmbMascota){
+           String mascotaID = vistaCRUD.cmbMascota.getSelectedItem().toString();
+           System.out.println("mascotaID: "+ mascotaID);
+           MascotaDAO md = new MascotaDAO();
+           Mascota mascota = md.findtMascota(mascotaID);
+           if(mascota!=null){
+                ImageIcon imageIcon = new ImageIcon(
+                    new ImageIcon("./assets/pets/"+mascota.getFoto())
+                        .getImage()
+                        .getScaledInstance(
+                            vistaCRUD.lblFoto.getWidth(), 
+                            vistaCRUD.lblFoto.getHeight(),
+                            Image.SCALE_SMOOTH)
+                );
+                vistaCRUD.lblFoto.setIcon(imageIcon);
+           }                   
+       }
     }    
 
     @Override

@@ -14,14 +14,24 @@ public class Cita {
     private Recepcionista recepcionista;
     private Veterinario veterinario;
     private String tipoAtencion;
+    private String fecha;
 
-    public Cita( String ID, Recepcionista recepcionista, Veterinario veterinario,  Cliente cliente, Mascota mascota, String tipoAtencion) {
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public Cita( String ID, Recepcionista recepcionista, Veterinario veterinario,  Cliente cliente, Mascota mascota, String tipoAtencion, String fecha) {
         this.ID = ID;
         this.mascota = mascota;
         this.cliente = cliente;
         this.recepcionista = recepcionista;
         this.veterinario = veterinario;
         this.tipoAtencion = tipoAtencion;
+        this.fecha = fecha;
     }
 
     public String getID() {

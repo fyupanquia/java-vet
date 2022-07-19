@@ -31,7 +31,8 @@ public class CitaDAO {
                     + "CC.APELLIDOS APELLIDO_CLIENTE, "
                     + "M.ID ID_MASCOTA, "
                     + "M.NOMBRE NOMBRE_MASCOTA, "
-                    + "C.ATENCION "
+                    + "C.ATENCION, "
+                    + "C.FECHA "
                     + "FROM CITAS C "
                     + "INNER JOIN RECEPCIONISTAS R ON C.RECEPCIONISTA=R.ID "
                     + "INNER JOIN VETERINARIOS V ON C.VETERINARIO=V.ID "
@@ -45,7 +46,7 @@ public class CitaDAO {
                         new Veterinario(rs.getString(5), rs.getString(6), rs.getString(7)), 
                         new Cliente(rs.getString(8), rs.getString(9), rs.getString(10)),
                         new Mascota(rs.getString(11), rs.getString(12)),
-                        rs.getString(13)
+                        rs.getString(13), rs.getString(14)
                 );
                 listaCita.add(cita);
             }
@@ -55,17 +56,18 @@ public class CitaDAO {
         return listaCita;
     }
     
-    public Boolean insertCita(String recepcionista, String veterinario, String cliente, String mascota, String atencion){
+    public Boolean insertCita(String recepcionista, String veterinario, String cliente, String mascota, String atencion, String fecha){
         Boolean rptaRegistro=false;
         try {
             Connection accesoDB = conexion.getConnection();
-            CallableStatement cs=accesoDB.prepareCall("{ call SP_INSERTAR_CITA(?, ?, ?, ?, ?) }");
+            CallableStatement cs=accesoDB.prepareCall("{ call SP_INSERTAR_CITA(?,?,?,?,?,?) }");
             
             cs.setString(1, recepcionista.split(":")[0]);
             cs.setString(2, veterinario.split(":")[0]);
             cs.setString(3, cliente.split(":")[0]);
             cs.setString(4, mascota.split(":")[0]);
             cs.setString(5, atencion);
+            cs.setString(6, fecha);
             
             int numFAfectadas=cs.executeUpdate();
             if (numFAfectadas>0){
@@ -78,17 +80,18 @@ public class CitaDAO {
         return rptaRegistro;
     }
     
-    public int editarCita(String ID, String recepcionista, String veterinario, String cliente, String mascota, String atencion){
+    public int editarCita(String ID, String recepcionista, String veterinario, String cliente, String mascota, String atencion, String fecha){
         int numFA =0;
         try {
             Connection accesoDB = conexion.getConnection();
-            CallableStatement cs = accesoDB.prepareCall("{ call SP_EDITAR_CITA(?,?,?,?,?,?) }");
+            CallableStatement cs = accesoDB.prepareCall("{ call SP_EDITAR_CITA(?,?,?,?,?,?,?) }");
             cs.setString(1, ID);
             cs.setString(2, recepcionista.split(":")[0]);
             cs.setString(3, veterinario.split(":")[0]);
             cs.setString(4, cliente.split(":")[0]);
             cs.setString(5, mascota.split(":")[0]);
             cs.setString(6, atencion);
+            cs.setString(7, fecha);
             numFA =cs.executeUpdate();
         }catch (SQLException e){
             System.out.println("SQLException: "+ e.getMessage());

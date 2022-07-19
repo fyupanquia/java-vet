@@ -32,7 +32,6 @@ public class ClienteDAO {
         try {
             Connection accesoDB = conexion.getConnection();
             CallableStatement cs=accesoDB.prepareCall("{ call SP_INSERTAR_CLIENTE(?, ?, ?, ?, ?, ?) }");
-            //PreparedStatement cs = accesoDB.prepareStatement("INSERT INTO (NOMBRES,APELLIDOS,DNI,TELEFONO,DIRECCION,EMAIL) VALUES (?, ?, ?, ?, ?, ?)");
             
             System.out.println("nombres: "+ nombres);
             System.out.println("apellidos: "+ apellidos);
