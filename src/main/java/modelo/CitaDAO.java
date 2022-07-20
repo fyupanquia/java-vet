@@ -37,7 +37,8 @@ public class CitaDAO {
                     + "INNER JOIN RECEPCIONISTAS R ON C.RECEPCIONISTA=R.ID "
                     + "INNER JOIN VETERINARIOS V ON C.VETERINARIO=V.ID "
                     + "INNER JOIN CLIENTES CC ON C.CLIENTE=CC.ID "
-                    + "INNER JOIN MASCOTAS M ON C.MASCOTA=M.ID ");
+                    + "INNER JOIN MASCOTAS M ON C.MASCOTA=M.ID "
+                    + "ORDER BY C.ID DESC");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 cita = new Cita(

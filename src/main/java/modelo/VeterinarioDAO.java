@@ -20,7 +20,7 @@ public class VeterinarioDAO {
         try{
             
             Connection accesoDB =conexion.getConnection();
-            PreparedStatement ps=accesoDB.prepareStatement("SELECT * FROM VETERINARIOS");
+            PreparedStatement ps=accesoDB.prepareStatement("SELECT * FROM VETERINARIOS ORDER BY ID DESC");
             ResultSet rs=ps.executeQuery();
             while (rs.next()) {
                 veterinario = new Veterinario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6) );
